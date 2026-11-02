@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>꾸미와 고려 보물선 탐험대 | 5-2 사회 고려의 문화와 생활</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17393b;--paper:#f7fbf4;--paper2:#e4f1e6;--line:#a9d3c0;--jade:#2f9c8a;--jade2:#1b6f63;--deep:#0b3a55;--red:#d0533f;--gold:#f0b429;--ok:#2f8f58}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:'Gowun Dodum','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink);font-size:21px;line-height:1.6;
+  background:linear-gradient(180deg,#1b86a6 0,#0f5f85 35%,var(--deep) 100%) fixed}
+h1,h2,h3,button,.jua{font-family:'Jua','Malgun Gothic',sans-serif;font-weight:400}
+button{touch-action:manipulation}
+#app{max-width:1000px;margin:0 auto;padding:14px 14px 34px;position:relative;z-index:1}
+#bubbles{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#bubbles i{position:absolute;bottom:-30px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh)}}
+
+#hud{background:rgba(5,40,60,.55);border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:10px 14px;margin-bottom:14px;color:#fff}
+#hud.hidden{display:none}
+.road{display:flex;align-items:center;margin-bottom:10px}
+.node{flex:0 0 auto;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:19px;font-family:'Jua',sans-serif;background:#3a6f86;border:3px solid #6da3b8;color:#d8eef5}
+.node.done{background:var(--ok);border-color:#9fe0b8;color:#fff}
+.node.now{background:var(--gold);border-color:#fff1c2;color:#4a3300;transform:scale(1.15);box-shadow:0 0 14px #ffd95a}
+.seg{flex:1;height:5px;background:#3a6f86;border-radius:3px;margin:0 3px}
+.seg.done{background:#9fe0b8}
+.bag{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.slot{width:60px;height:60px;border-radius:14px;border:2px dashed rgba(255,255,255,.4);display:grid;place-items:center;background:rgba(0,0,0,.2);font-family:'Jua',sans-serif}
+.slot img{width:52px;height:52px;object-fit:contain}
+.slot.has{border:2px solid var(--gold);background:rgba(240,180,41,.25)}
+.pearl{font-family:'Jua',sans-serif;font-size:22px;background:rgba(255,255,255,.14);border-radius:999px;padding:4px 14px}
+.reset{margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:12px;padding:8px 14px;font-size:17px;min-height:44px;cursor:pointer}
+
+.card{background:var(--paper);border:4px solid var(--line);border-radius:24px;padding:24px 26px;box-shadow:0 12px 30px rgba(0,0,0,.35);animation:pop .3s ease}
+@keyframes pop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.tag{display:inline-block;background:var(--jade2);color:#fff;border-radius:999px;padding:3px 16px;font-family:'Jua',sans-serif;font-size:18px}
+h1{font-size:46px;margin:.15em 0;line-height:1.25;color:var(--jade2)}
+h2{font-size:34px;margin:.25em 0 .35em;color:var(--jade2)}
+.center{text-align:center}
+.scene{display:block;width:100%;max-height:300px;object-fit:cover;border-radius:18px;margin:8px 0 14px;background:var(--paper2)}
+.key{background:linear-gradient(transparent 55%,#ffe27a 55%);font-weight:700}
+.guide{display:flex;gap:12px;align-items:center;margin:12px 0}
+.guide img{width:84px;height:84px;object-fit:contain;flex:0 0 auto;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.guide div{background:#fff;border:2px solid var(--line);border-radius:18px;padding:10px 16px;flex:1}
+.chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.chip{background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 14px;text-align:center;min-width:130px}
+.chip img{display:block;width:92px;height:92px;object-fit:contain;margin:0 auto}
+.chip small{display:block;color:#4e7270;font-size:.8em}
+
+.btn{display:inline-block;border:0;border-radius:18px;padding:14px 32px;min-height:62px;font-size:26px;cursor:pointer;color:#fff;background:var(--jade);box-shadow:0 5px 0 var(--jade2)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--jade2)}
+.btn.gold{background:var(--gold);color:#4a3300;box-shadow:0 5px 0 #a87a0c}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:0 5px 0 var(--line);border:2px solid var(--line)}
+.btn.sm{font-size:19px;padding:8px 18px;min-height:48px}
+.btn:disabled{opacity:.45}
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+
+.qno{color:#4e7270;font-family:'Jua',sans-serif}
+.qtext{font-size:29px;font-family:'Jua',sans-serif;margin:6px 0 16px;line-height:1.4}
+.opts{display:grid;gap:12px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{background:#fff;border:3px solid var(--line);border-radius:18px;padding:14px 18px;min-height:64px;font-size:23px;text-align:left;cursor:pointer;font-family:inherit;color:inherit}
+.opt.sel{border-color:var(--jade);background:#dcf3ec}
+.opt.ok{border-color:var(--ok);background:#dff3e3}
+.opt.no{border-color:var(--red);background:#fbe1dd;animation:shake .35s}
+.ox{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ox .opt{font-size:80px;text-align:center;font-family:'Jua',sans-serif;padding:12px}
+.ox .o{color:#2a6fb0}.ox .x{color:var(--red)}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+input.ans,textarea.ans{font:inherit;font-size:28px;padding:12px 16px;border:3px solid var(--line);border-radius:16px;background:#fff;color:inherit}
+input.ans{width:min(100%,380px);text-align:center}
+textarea.ans{width:100%;min-height:210px;font-size:24px;line-height:1.6}
+input.ans:focus,textarea.ans:focus{outline:none;border-color:var(--jade)}
+.seq{min-height:70px;border:3px dashed var(--line);border-radius:16px;padding:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#fff;margin-bottom:12px}
+.seq:empty::before{content:'아래 카드를 순서대로 눌러 보세요';color:#7f9c98;padding-left:8px}
+.pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{background:var(--jade);color:#fff;border-radius:14px;padding:10px 16px;min-height:54px;font-size:21px;border:0;font-family:inherit;cursor:pointer}
+.pill.pool{background:#fff;color:var(--ink);border:3px solid var(--line)}
+.pill.used{visibility:hidden}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px}
+.match .opt{display:flex;align-items:center;gap:10px}
+.match img{width:70px;height:70px;object-fit:contain;flex:0 0 auto}
+.fb{margin-top:16px;border-radius:14px;padding:12px 16px;font-size:22px;display:none}
+.fb.bad{display:block;background:#fbe1dd;border:2px solid var(--red)}
+.fb.good{display:block;background:#dff3e3;border:2px solid var(--ok)}
+
+/* 뱃길 */
+.sea{position:relative;height:430px;border-radius:18px;background:linear-gradient(180deg,#bfe8f3,#7ccbe0);overflow:hidden}
+.sea svg{position:absolute;inset:0;width:100%;height:100%}
+.port{position:absolute;transform:translate(-50%,-50%);min-height:56px;border-radius:16px;border:3px solid #fff;background:var(--jade2);color:#fff;font-size:21px;padding:6px 14px;cursor:pointer}
+.port.ok{background:var(--ok)}.port.no{background:var(--red);animation:shake .35s}
+.shipmark{position:absolute;width:86px;height:86px;object-fit:contain;transform:translate(-50%,-50%);transition:left .7s,top .7s;pointer-events:none;z-index:2}
+/* 글자 찾기 */
+.jgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;max-width:520px;margin:0 auto;background:#6b4a2f;padding:12px;border-radius:14px}
+.jgrid button{aspect-ratio:1;border:0;border-radius:8px;background:#e3c79d;color:#3a2413;font-size:32px;font-family:'Malgun Gothic',serif;cursor:pointer;min-height:48px}
+.jgrid button.ok{background:#9fe0b8}.jgrid button.no{background:#f2a79b;animation:shake .35s}
+/* 분류 */
+.sortcard{background:#fff;border:3px solid var(--line);border-radius:18px;padding:18px;text-align:center;font-size:27px;font-family:'Jua',sans-serif;margin-bottom:14px}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bins .btn{width:100%;min-height:92px}
+/* 조판 */
+.paper{min-height:96px;background:#fbf6e6;border:2px solid #d8c9a0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:44px;font-family:'Jua',sans-serif;letter-spacing:.12em;color:#222;margin:12px 0;padding:8px;flex-wrap:wrap}
+.paper span{animation:ink .35s both}
+@keyframes ink{from{opacity:0;transform:scale(1.6)}to{opacity:1}}
+/* 목화 */
+.bolls{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.boll{display:flex;align-items:center;gap:10px;background:#fff;border:3px solid var(--line);border-radius:18px;padding:10px 14px;min-height:88px;font-size:22px;text-align:left;cursor:pointer;font-family:inherit;color:inherit}
+.boll img{width:64px;height:64px;object-fit:contain;flex:0 0 auto}
+.boll.ok{border-color:var(--ok);background:#dff3e3}.boll.no{border-color:var(--red);background:#fbe1dd;animation:shake .35s}
+/* 빙고 */
+.bingo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:420px;margin:12px auto}
+.bingo button{aspect-ratio:1;border-radius:18px;border:3px solid var(--line);background:#fff;font-family:'Jua',sans-serif;font-size:42px;color:var(--ink);cursor:pointer}
+.bingo button.cur{border-color:var(--gold);background:#fff4cf}
+.bingo button.t{background:#bfe8d3;border-color:var(--ok);color:var(--jade2)}
+.bingo button.f{background:#e7e4df;border-color:#c9c4bb;color:#9a938a}
+.bingo button.line{background:var(--gold);border-color:#a87a0c;color:#4a3300}
+
+.item{width:190px;height:190px;object-fit:contain;animation:spin .8s ease}
+@keyframes spin{from{transform:scale(0) rotate(-160deg)}to{transform:none}}
+.chest{width:min(300px,70%);display:block;margin:0 auto;object-fit:contain}
+.locks{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.locks img{width:62px;height:62px;object-fit:contain;animation:spin .6s both}
+.cert{border:8px double var(--gold);border-radius:18px;padding:20px;background:#fffdf3;text-align:center}
+.letterbox{white-space:pre-wrap;text-align:left;background:#fbf6e6;border-radius:12px;padding:12px 16px;border:2px solid #d8c9a0}
+#confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+#confetti i{position:absolute;top:-20px;width:12px;height:18px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+footer{color:#cfe6ee;font-size:15px;text-align:center;margin-top:16px}
+@media(max-width:640px){
+  body{font-size:19px}h1{font-size:34px}h2{font-size:27px}.qtext{font-size:24px}
+  .card{padding:18px 14px}.opts.two,.match,.bolls{grid-template-columns:1fr}.opt{font-size:21px}
+  .node{width:32px;height:32px;font-size:15px}.slot{width:46px;height:46px}.slot img{width:40px;height:40px}
+  .jgrid button{font-size:26px}.sea{height:400px}.port{font-size:18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="bubbles"></div>
+<div id="app">
+  <div id="hud" class="hidden"></div>
+  <main id="screen"></main>
+  <footer>5학년 2학기 사회 1단원 · [17~18차시] 고려의 문화와 사람들의 생활 모습을 알아볼까요 (교과서 58~63쪽)</footer>
+</div>
+<div id="confetti"></div>
+
+<script>
+const img = n => `assets/${n}.webp`;
+const kumi = t => `<div class="guide"><img src="${img('kumi')}" alt="주꾸미 꾸미"><div>${t}</div></div>`;
+
+/* ===================== 미션 데이터 ===================== */
+const MISSIONS = [
+{
+  title:'비색 청자의 비밀', pic:'kiln', item:{img:'maebyeong', name:'상감 청자'},
+  story:[
+    `${kumi('안녕! 나는 주꾸미 <b>꾸미</b>야. 태안 앞바다에서 고려 보물선을 찾았는데, 보물 상자가 잠겨 있어! 고려의 보물 <b>6개</b>를 모아 함께 열어 줘!')}
+     <p>고려는 푸르고 영롱한 빛깔의 도자기를 잘 만들었어요. 이 빛깔을 <span class="key">비색</span>, 푸른 도자기를 <span class="key">청자</span>라고 해요.</p>
+     <p>처음에는 <b>중국</b>의 기술로 만들었지만, 점차 발전시켜 <span class="key">고려만의 독창적인 청자</span>를 만들어 냈어요.</p>`,
+    `<p>고려 청자의 자랑은 <span class="key" style="font-size:1.25em">상감 기법</span>!</p>
+     <p>겉면에 무늬를 새겨 파내고 → 다른 색의 흙으로 메운 뒤 → 유약을 발라 구워 내는 방법이에요. 그래서 흰색, 검은색 무늬가 나타나요.</p>
+     <div class="chips">
+       <div class="chip"><img src="${img('maebyeong')}" alt="">매병</div>
+       <div class="chip"><img src="${img('pitcher')}" alt="">주전자</div>
+       <div class="chip"><img src="${img('pillow')}" alt="">베개</div>
+     </div>
+     <p>청자는 비싸고 귀해서 주로 <span class="key">지배층(왕족, 높은 관리)</span>이 썼어요.</p>`
+  ],
+  qs:[
+    {type:'choice', q:'고려 청자를 처음 만들 때 기술은 어디에서 왔을까요?', opts:['중국','일본','아라비아','몽골'], a:0, hint:'고려 바로 옆, 도자기로 유명한 큰 나라예요.'},
+    {type:'match', q:'고려 청자와 쓰임새를 짝지어 보세요!', pairs:[['pitcher','주전자','물이나 술을 따른다'],['pillow','베개','누워서 머리를 받친다'],['stool','의자','위에 앉아서 쉰다'],['burner','향로','향을 피운다'],['dropper','연적','벼루에 물을 떨어뜨린다'],['brush','붓꽂이','붓을 꽂아 둔다']], hint:'유물의 이름을 잘 읽어 보세요.'},
+    {type:'choice', q:'상감 기법을 바르게 설명한 것은?', opts:['무늬를 파내고 다른 색 흙으로 메워 굽는다','그림을 종이에 그려 붙인다','금을 녹여 겉에 입힌다','굽지 않고 햇볕에 말린다'], a:0, hint:'새기고 → 메우고 → 유약 바르고 → 구워요.'},
+    {type:'order', q:'청자 만드는 순서대로 카드를 눌러 보세요!', items:['흙 다지기','모양 만들기','문양 넣기','초벌(1차 굽기)','유약 바르기','재벌(2차 굽기)'], hint:'모양과 무늬를 만든 뒤 두 번 구워요. 유약은 두 번째 굽기 전에 발라요.'},
+    {type:'ox', q:'상감 기법으로 청자를 만드는 기술은 중국에서 그대로 들여온 것이다.', a:'X', hint:'상감 청자는 고려만의 독창적인 기술이에요.'},
+    {type:'choice', q:'고려 청자는 주로 누가 사용했을까요?', opts:['왕족, 높은 관리 같은 지배층','농사짓는 백성','어린아이들','이웃 나라 군인'], a:0, hint:'비싸고 귀한 물건이었어요.'}
+  ]
+},
+{
+  title:'보물선의 뱃길', pic:'title', item:{img:'ship', name:'청자 보물선'},
+  story:[
+    `${kumi('믿기 어렵겠지만, 어부가 건져 올린 내 친구 주꾸미가 청자 대접을 안고 있어서 바닷속 보물선을 찾게 됐대! 정말이야!')}
+     <p>청자는 가마터, 왕궁과 무덤뿐만 아니라 <span class="key">바닷속</span>에서도 발견돼요. 고려 청자를 싣고 가다 가라앉은 배를 <span class="key">보물선</span>이라고 불러요.</p>`,
+    `<p>청자의 대표적인 생산지는 <span class="key">탐진(강진)</span>이에요. 배는 서해안을 따라 북쪽으로 올라가 수도 개경(개성) 가까운 항구 <span class="key">벽란도</span>로 향했어요.</p>
+     <p>왜 그 먼 곳까지 옮겼을까요? 청자를 쓰는 <b>지배층</b>이 개경에 살았고, 벽란도에는 <b>외국 상인</b>이 드나들었기 때문이에요.</p>
+     <p class="center"><b>탐진(강진) → 진포(군산) → 안흥(태안) → 벽란도</b></p>`
+  ],
+  qs:[
+    {type:'route', q:'선장이 되어 청자를 벽란도까지 옮겨요! 지나는 곳을 순서대로 누르세요.', ports:[['탐진(강진)',62,88],['진포(군산)',44,60],['안흥(태안)',30,36],['벽란도',46,11]], hint:'남쪽의 탐진에서 출발해 서해안을 따라 북쪽으로 올라가요.'},
+    {type:'choice', q:'신문 기사에 나오는 "보물선"이 뜻하는 것은?', opts:['고려 청자를 실은 침몰선','금화를 실은 해적선','외국 군대의 전쟁 배','새로 만든 유람선'], a:0, hint:'바닷속에서 청자와 함께 발견된 배예요.'},
+    {type:'input', q:'고려 시대의 대표적인 청자 생산지로, 지금의 강진을 부르던 이름은?', a:['탐진'], ph:'초성 힌트: ㅌㅈ', hint:'초성은 ㅌㅈ, 두 글자예요.'},
+    {type:'choice', q:'보물선이 벽란도로 향한 까닭으로 가장 알맞은 것은?', opts:['개경의 지배층과 외국 상인에게 청자를 팔기 위해','낚시를 하기 위해','청자를 바다에 버리기 위해','몽골군과 싸우기 위해'], a:0, hint:'청자를 주로 누가 썼는지, 벽란도에 누가 왔는지 떠올려 보세요.'}
+  ]
+},
+{
+  title:'팔만대장경의 정성', pic:'hall', item:{img:'woodblock', name:'대장경판'},
+  story:[
+    `<p>고려는 <b>거란</b>, <b>몽골</b>과 큰 전쟁을 겪었어요. 고려 사람들은 믿고 있던 <span class="key">불교의 힘</span>에 의지해 마음을 하나로 모으면 나라를 구할 수 있다고 믿었어요.</p>
+     <p>그래서 부처의 말씀을 나무판에 새겨 <b>대장경</b>을 만들었어요.</p>
+     <div class="chips">
+       <div class="chip"><b>초조대장경</b><small>거란의 침입 때 / 몽골의 침입으로 경판이 불탐</small></div>
+       <div class="chip"><b>재조대장경 = 팔만대장경</b><small>몽골의 침입 때 / 지금까지 남아 있음</small></div>
+     </div>`,
+    `<p>대장경판이 무려 <span class="key">팔만 장</span>이 넘어서 팔만대장경이라고 불러요. (1236~1251년 제작)</p>
+     <p>오랜 시간 만들었는데도 <span class="key">글자 모양이 고르고 틀린 글자가 거의 없어요!</span> 고려의 <b>목판 인쇄 기술</b>이 매우 뛰어났다는 증거예요.</p>
+     <p>나무로 만들었지만 800년 가까이 지난 지금도 합천 해인사 <b>장경판전</b>에 잘 보관되어 있어요.</p>
+     ${kumi('이제 네가 경판 검사관이야! 틀린 글자를 찾아 줘!')}`
+  ],
+  qs:[
+    {type:'grid', q:'경판 검사! 혼자만 다른 글자를 찾아 누르세요. (3판)', rounds:[['大','犬'],['木','本'],['王','玉']], hint:'글자 하나하나를 천천히 살펴보세요. 점 하나, 획 하나가 달라요!'},
+    {type:'choice', q:'고려 사람들이 팔만대장경을 만든 까닭은?', opts:['불교의 힘으로 몽골의 침입을 물리치려고','외국에 팔아 돈을 벌려고','글씨 연습을 하려고','나무를 아끼려고'], a:0, hint:'전쟁이 끝나기를 바라는 간절한 기도를 담았어요.'},
+    {type:'ox', q:'초조대장경판은 지금도 해인사에 그대로 남아 있다.', a:'X', hint:'몽골의 침입으로 불타 없어졌어요. 찍어 낸 책만 남아 있지요.'},
+    {type:'choice', q:'팔만대장경을 통해 알 수 있는 고려의 뛰어난 기술은?', opts:['목판 인쇄 기술','배 만드는 기술','유리 만드는 기술','종이비행기 기술'], a:0, hint:'나무판에 글자를 새겨 찍어 내는 기술이에요.'},
+    {type:'multi', q:'목판 인쇄의 단점을 모두 고르세요. (3개)', opts:['나무가 갈라지고 휘어 보관이 어렵다','새긴 내용만 인쇄할 수 있다','자꾸 찍으면 닳아서 인쇄 상태가 나빠진다','글자를 인쇄할 수 없다','종이 없이 찍어야 한다'], a:[0,1,2], hint:'나무의 성질을 떠올려 보세요.'}
+  ]
+},
+{
+  title:'금속 활자 공방', pic:'print', item:{img:'metaltype', name:'금속 활자'},
+  story:[
+    `<p>목판의 단점을 어떻게 극복할까요? 답은 <span class="key">글자를 하나씩, 금속으로 만들기!</span></p>
+     <p>오랫동안 세계 최초의 금속 활자 인쇄는 독일의 구텐베르크(1455년)로 알려져 있었어요. 그런데 1967년, <b>프랑스 국립도서관</b>에서 한국인 <b>박병선</b> 박사가 놀라운 책을 찾아냈어요.</p>
+     <p class="center" style="font-size:1.15em"><span class="key">『직지심체요절』(직지) · 1377년</span></p>
+     <p>오늘날 남아 있는 세계에서 가장 오래된 금속 활자 인쇄본으로, <b>유네스코 세계 기록 유산</b>이에요.</p>`,
+    `<p><b>금속 활자의 장점</b></p>
+     <div class="chips">
+       <div class="chip">필요한 글자만<br>따로 만들 수 있다</div>
+       <div class="chip">글자를 골라 조합해<br>여러 책을 찍을 수 있다</div>
+       <div class="chip">튼튼해서<br>오래 보관할 수 있다</div>
+     </div>
+     <p>금속을 다루는 기술, 활자를 고정하는 기술, 먹과 종이를 만드는 기술도 함께 발전했어요.</p>
+     <p><b>만드는 과정</b> : 밀랍에 글자 새기기 → 밀랍 가지를 만들어 황토 반죽으로 감싸기 → 쇳물 붓기 → 쇳물이 식으면 활자 떼기 → 활자 배열하기 → 인쇄하기</p>`
+  ],
+  qs:[
+    {type:'order', q:'금속 활자 인쇄 과정을 순서대로 눌러 보세요!', items:['밀랍에 글자 새기기','황토 반죽으로 감싸기','쇳물 붓기','활자 떼어 내기','활자 배열하기','인쇄하기'], hint:'밀랍(꿀벌이 만든 물질) 틀을 먼저 만들고, 그 자리에 쇳물을 부어요.'},
+    {type:'sort', q:'목판일까요, 금속 활자일까요? 알맞은 쪽을 누르세요.', bins:['목판','금속 활자'], items:[['나무에 새긴다',0],['글자를 하나씩 만든다',1],['새긴 내용만 찍을 수 있다',0],['글자를 조합해 여러 책을 찍는다',1],['갈라지거나 휘기 쉽다',0],['튼튼해서 오래 보관한다',1]], hint:'나무판 한 장 통째로? 글자 하나하나 따로?'},
+    {type:'press', q:'활자를 골라 판을 짜고 찍어 보세요! 만들 문장: "직지는 고려의 보물"', text:'직지는 고려의 보물', extra:['구','몽','백'], hint:'글자를 문장 순서대로 눌러 보세요. 쓰지 않는 글자도 섞여 있어요.'},
+    {type:'input', q:'현재 남아 있는 세계에서 가장 오래된 금속 활자 인쇄본의 이름은? (두 글자)', a:['직지','직지심체요절','직지심경'], ph:'책 이름', hint:'ㅈㅈ! 프랑스 국립도서관에 있어요.'},
+    {type:'input', q:'『직지』를 찍은 해는 몇 년일까요?', a:['1377','1377년'], ph:'숫자로 쓰기', num:true, hint:'13□7년! 가운데 숫자는 7이에요.'}
+  ]
+},
+{
+  title:'문익점의 목화씨', pic:'field', item:{img:'cotton', name:'목화솜'},
+  story:[
+    `<p>일반 백성들은 무슨 옷을 입었을까요?</p>
+     <div class="chips">
+       <div class="chip"><b>비단, 가죽</b><small>따뜻하지만 비싸다</small></div>
+       <div class="chip"><b>삼베, 모시</b><small>백성의 옷 / 겨울엔 춥다</small></div>
+       <div class="chip"><b>무명</b><small>부드럽고 따뜻하다</small></div>
+     </div>
+     <p><span class="key">문익점</span>은 사신으로 원에 갔다가 돌아올 때 <b>목화씨</b>를 얻어 왔어요. 장인 <b>정천익</b>과 함께 심었는데, 처음엔 기르는 법을 몰라 거의 다 죽고 겨우 한 줄기만 남았어요.</p>`,
+    `<p>포기하지 않고 <span class="key">3년 만에 재배에 성공</span>했고, 목화솜에서 실을 뽑아 옷감을 짜는 기술도 널리 퍼뜨렸어요. 그 덕분에 부드럽고 따뜻한 <span class="key">무명옷</span>이 나라 곳곳에 퍼졌어요.</p>
+     ${kumi('백성들이 겨울을 따뜻하게 보낼 수 있게 됐어! 진짜 이야기가 적힌 목화만 따 보자!')}`
+  ],
+  qs:[
+    {type:'pick', q:'진짜 사실이 적힌 목화만 골라 따세요! (4송이)', opts:[['문익점은 원에서 목화씨를 얻어 왔다',1],['처음에는 대부분 죽고 한 줄기만 남았다',1],['3년 만에 재배에 성공했다',1],['무명옷이 나라 곳곳에 퍼졌다',1],['목화는 바닷속에서 자란다',0],['무명은 비단보다 훨씬 비쌌다',0]], hint:'이야기에 나온 내용만 따세요. 틀린 말은 2송이예요.'},
+    {type:'sort', q:'옷감의 특징을 분류해 보세요.', bins:['비싸서 구하기 어려움','백성이 입을 수 있음'], items:[['비단',0],['가죽',0],['삼베',1],['모시',1],['무명',1]], hint:'비단과 가죽은 따뜻하지만 비쌌어요.'},
+    {type:'choice', q:'문익점이 목화를 널리 퍼뜨린 까닭으로 가장 알맞은 것은?', opts:['백성이 따뜻한 겨울을 보낼 수 있도록','왕의 옷만 만들기 위해','목화꽃을 구경하기 위해','원나라에 팔기 위해'], a:0, hint:'삼베옷만 입던 백성의 겨울을 떠올려 보세요.'},
+    {type:'input', q:'목화솜에서 실을 뽑아 만든, 부드럽고 따뜻한 옷감의 이름은?', a:['무명'], ph:'초성 힌트: ㅁㅁ', hint:'초성 ㅁㅁ, 두 글자예요.'}
+  ]
+},
+{
+  title:'고려 사람이 되어 보기', pic:'village', item:{img:'letter', name:'고려의 편지'},
+  story:[
+    `<p>고려의 기술과 문화가 발전하면서 사람들의 생활도 달라졌어요. 어떤 모습이었을지 상상해 볼까요?</p>
+     <div class="chips">
+       <div class="chip">목판 인쇄<br><small>글자를 조각하는 사람, 책을 읽는 사람</small></div>
+       <div class="chip">금속 활자<br><small>활자 기술자, 책으로 공부하는 사람</small></div>
+       <div class="chip">무명옷<br><small>실을 뽑고 옷감을 짜는 백성</small></div>
+     </div>
+     ${kumi('마지막 미션이야! 고려 백성이 되어 친구에게 편지를 써 줘!')}`
+  ],
+  qs:[
+    {type:'match', q:'기술이 발전하면 어떤 생활 모습이 나타날까요? 짝지어 보세요.', pairs:[['','목판 인쇄 기술','책을 찍어 공부하는 모습'],['','금속을 다루는 기술','쇳물로 활자를 만드는 기술자'],['','목화 재배','따뜻한 무명옷을 입는 백성'],['','청자 만드는 기술','청자 주전자를 쓰는 귀족']], hint:'기술과 그 기술로 생긴 물건을 이어 보세요.'},
+    {type:'letter', q:'고려 백성이 되어, 목화로 달라진 생활을 친구에게 편지로 알려 주세요.', min:30, ph:'친구에게.\n요즘 우리 마을에서는…', words:['목화','무명옷','따뜻한 겨울','실 뽑기','옷감 짜기'], hint:''}
+  ]
+}
+];
+
+const BINGO = [
+  ['왕건은 훈요 10조를 남겨 고려 정책에 많은 영향을 끼쳤다.',1,''],
+  ['고려는 신라에 비해 개인의 능력보다 신분을 더욱 중시하는 사회였다.',0,'신분보다 능력을 더 중시했어요.'],
+  ['고려 시대에는 불교가 나라의 지원을 받으며 크게 발전했다.',1,''],
+  ['고려 시대에는 가정생활에서 여성의 지위가 남성에 비해 낮았다.',0,'가정에서 남성과 여성의 지위는 비교적 동등했어요.'],
+  ['고려의 서희는 거란과 외교 담판을 벌여 강동 6주 지역을 얻었다.',1,''],
+  ['고려 시대에는 벽란도가 국제 교류의 중심지로 성장했다.',1,''],
+  ['몽골이 침입하자 고려는 수도를 강화로 옮기고 몽골에 저항했다.',1,''],
+  ['고려청자는 다양한 생활용품으로 만들어져 주로 서민들이 사용했다.',0,'주로 지배층이 사용했어요.'],
+  ['『직지』는 오늘날 남아 있는 세계에서 가장 오래된 금속 활자 인쇄본이다.',1,'']
+];
+const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+/* ===================== 상태 ===================== */
+const KEY = 'goryeo-treasure-v1';
+const fresh = n => ({m:0, name:n||'', pearls:0, letter:''});
+let S = fresh();
+try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && typeof s.m==='number') S = Object.assign(S, s); }catch(e){}
+const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} };
+const $ = s => document.querySelector(s);
+const screen = $('#screen'), hud = $('#hud');
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const shuffled = a => { if(a.length<2) return a.slice(); let r; do{ r=shuffle(a); }while(r.every((v,i)=>v===a[i])); return r; };
+const norm = t => String(t).replace(/\s+/g,'').toLowerCase();
+
+for(let i=0;i<14;i++){ const b=document.createElement('i'), s=8+Math.random()*24;
+  b.style.cssText=`left:${Math.random()*100}vw;width:${s}px;height:${s}px;animation-duration:${9+Math.random()*12}s;animation-delay:-${Math.random()*15}s`;
+  $('#bubbles').appendChild(b); }
+
+let AC;
+function beep(kind){
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    ({ok:[660,880], bad:[220,160], win:[523,659,784,1047]}[kind]).forEach((f,i)=>{
+      const o=AC.createOscillator(), g=AC.createGain();
+      o.type = kind==='bad'?'sawtooth':'triangle'; o.frequency.value=f;
+      g.gain.setValueAtTime(.15, AC.currentTime+i*.12);
+      g.gain.exponentialRampToValueAtTime(.001, AC.currentTime+i*.12+.25);
+      o.connect(g).connect(AC.destination); o.start(AC.currentTime+i*.12); o.stop(AC.currentTime+i*.12+.26);
+    });
+  }catch(e){}
+}
+function confetti(n=90){
+  const box=$('#confetti'), cols=['#f0b429','#2f9c8a','#d0533f','#7ccbe0','#fff'];
+  for(let i=0;i<n;i++){ const el=document.createElement('i');
+    el.style.left=Math.random()*100+'vw'; el.style.background=cols[i%cols.length];
+    el.style.animationDuration=(2+Math.random()*2.5)+'s'; el.style.animationDelay=Math.random()*.8+'s';
+    box.appendChild(el); setTimeout(()=>el.remove(),6000); }
+}
+
+function drawHud(){
+  hud.classList.remove('hidden');
+  let road='';
+  for(let i=0;i<=MISSIONS.length;i++){
+    const c = i<S.m?'done':(i===S.m?'now':'');
+    road += `<div class="node ${c}">${i<MISSIONS.length?(i<S.m?'✓':i+1):'★'}</div>`;
+    if(i<MISSIONS.length) road += `<div class="seg ${i<S.m?'done':''}"></div>`;
+  }
+  const bag = MISSIONS.map((m,i)=> i<S.m ? `<div class="slot has" title="${esc(m.item.name)}"><img src="${img(m.item.img)}" alt="${esc(m.item.name)}"></div>` : `<div class="slot">?</div>`).join('');
+  hud.innerHTML = `<div class="road">${road}</div><div class="bag">${bag}<span class="pearl">진주 ${S.pearls}개</span><button class="reset" id="resetBtn">처음부터</button></div>`;
+  $('#resetBtn').onclick = () => { if(confirm('처음부터 다시 시작할까요? 모은 보물이 사라져요.')){ S=fresh(S.name); save(); title(); } };
+}
+const top0 = () => window.scrollTo(0,0);
+
+function title(){
+  hud.classList.add('hidden'); top0();
+  const cont = S.m>0;
+  screen.innerHTML = `<div class="card center">
+    <span class="tag">5-2 사회 · 고려의 문화와 생활</span>
+    <img class="scene" src="${img('title')}" alt="바닷속 고려 보물선">
+    <h1>꾸미와 고려 보물선 탐험대</h1>
+    ${kumi('바닷속 보물 상자를 열려면 고려의 보물 6개가 필요해. 나랑 같이 찾으러 갈래?')}
+    <p style="font-size:.9em;color:#4e7270">문제를 맞혀야 다음 단계로 갈 수 있어요. 한 번에 맞히면 진주 3개!</p>
+    <p><input class="ans" id="nm" maxlength="12" placeholder="탐험대원 이름" value="${esc(S.name)}"></p>
+    <div class="row"><button class="btn gold" id="go">${cont?'이어서 탐험하기':'탐험 시작'}</button>
+    ${cont?'<button class="btn ghost" id="new">새로 시작</button>':''}</div></div>`;
+  const start = f => { const n=$('#nm').value.trim(); if(f) S=fresh(n); else S.name=n; save(); beep('ok'); route(); };
+  $('#go').onclick = () => start(false);
+  if(cont) $('#new').onclick = () => start(true);
+}
+function route(){ S.m < MISSIONS.length ? story(S.m,0) : chestIntro(); }
+
+function story(mi, pi){
+  drawHud(); top0();
+  const M=MISSIONS[mi], last=pi===M.story.length-1;
+  screen.innerHTML = `<div class="card">
+    <span class="tag">미션 ${mi+1} / ${MISSIONS.length}</span>
+    <h2>${esc(M.title)}</h2>
+    ${pi===0?`<img class="scene" src="${img(M.pic)}" alt="">`:''}
+    ${M.story[pi]}
+    <div class="row">${pi>0?'<button class="btn ghost" id="prev">이전</button>':''}
+      <button class="btn ${last?'gold':''}" id="next">${last?'문제 도전!':'다음'}</button></div></div>`;
+  if(pi>0) $('#prev').onclick = () => story(mi,pi-1);
+  $('#next').onclick = () => last ? ask(mi,0) : story(mi,pi+1);
+}
+
+/* 문제 엔진: 맞혀야만 다음으로 */
+function ask(mi, qi){
+  const M=MISSIONS[mi];
+  if(qi>=M.qs.length) return reward(mi);
+  drawHud(); top0();
+  const Q=M.qs[qi]; let tries=0;
+  screen.innerHTML = `<div class="card">
+    <span class="tag">미션 ${mi+1} · ${esc(M.title)}</span>
+    <div class="qno">문제 ${qi+1} / ${M.qs.length}</div>
+    <div class="qtext">${esc(Q.q)}</div>
+    <div id="body"></div><div class="fb" id="fb"></div><div class="row" id="ctl"></div></div>`;
+  const body=$('#body'), fb=$('#fb'), ctl=$('#ctl');
+  const wrong = () => { tries++; beep('bad'); fb.className='fb bad'; fb.textContent=`아쉬워요! 다시 도전해 보세요. 힌트: ${Q.hint}`; };
+  const right = () => {
+    const got = tries===0?3:tries===1?2:1; S.pearls+=got; save(); drawHud(); beep('ok');
+    fb.className='fb good'; fb.textContent=`정답이에요! 진주 ${got}개를 얻었어요.`;
+    body.querySelectorAll('button,input,textarea').forEach(e=>e.disabled=true);
+    ctl.innerHTML=`<button class="btn gold" id="nx">${qi===M.qs.length-1?'보물 받기':'다음 문제'}</button>`;
+    $('#nx').onclick=()=>ask(mi,qi+1); $('#nx').focus();
+  };
+  ctl.innerHTML=`<button class="btn ghost sm" id="bk">이야기 다시 보기</button>`;
+  $('#bk').onclick=()=>story(mi,0);
+  const addCheck = (fn,label='확인') => { const b=document.createElement('button'); b.className='btn'; b.textContent=label; b.onclick=fn; ctl.appendChild(b); };
+  const say = t => { fb.className='fb bad'; fb.textContent=t; };
+
+  if(Q.type==='choice'){
+    body.innerHTML=`<div class="opts">${shuffle(Q.opts.map((_,i)=>i)).map(i=>`<button class="opt" data-i="${i}">${esc(Q.opts[i])}</button>`).join('')}</div>`;
+    body.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ if(+b.dataset.i===Q.a){b.classList.add('ok');right();} else {b.classList.add('no');b.disabled=true;wrong();} });
+  }
+  else if(Q.type==='ox'){
+    body.innerHTML=`<div class="ox"><button class="opt o" data-v="O">O</button><button class="opt x" data-v="X">X</button></div>`;
+    body.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ if(b.dataset.v===Q.a){b.classList.remove('no');b.classList.add('ok');right();} else {b.classList.remove('no');void b.offsetWidth;b.classList.add('no');wrong();} });
+  }
+  else if(Q.type==='input'){
+    body.innerHTML=`<div class="center"><input class="ans" id="in" autocomplete="off" placeholder="${esc(Q.ph||'')}" ${Q.num?'inputmode="numeric"':''}></div>`;
+    const inp=$('#in'), chk=()=>{ if(!inp.value.trim()) return inp.focus(); Q.a.map(norm).includes(norm(inp.value))?right():(wrong(),inp.select()); };
+    addCheck(chk); inp.onkeydown=e=>{ if(e.key==='Enter'&&!e.isComposing&&!inp.disabled) chk(); }; inp.focus();
+  }
+  else if(Q.type==='multi'){
+    body.innerHTML=`<div class="opts two">${shuffle(Q.opts.map((_,i)=>i)).map(i=>`<button class="opt" data-i="${i}">${esc(Q.opts[i])}</button>`).join('')}</div>`;
+    body.querySelectorAll('.opt').forEach(b=>b.onclick=()=>b.classList.toggle('sel'));
+    addCheck(()=>{ const sel=[...body.querySelectorAll('.opt.sel')].map(b=>+b.dataset.i).sort(); if(sel.join()===Q.a.join()){body.querySelectorAll('.opt.sel').forEach(b=>b.classList.add('ok'));right();} else wrong(); });
+  }
+  else if(Q.type==='order'){
+    const pool=shuffled(Q.items.map((_,i)=>i)); let seq=[];
+    body.innerHTML=`<div class="seq" id="seq"></div><div class="pills" id="pool"></div>`;
+    const draw=()=>{
+      $('#seq').innerHTML=seq.map((i,k)=>`<button class="pill" data-k="${k}">${k+1}. ${esc(Q.items[i])}</button>`).join('');
+      $('#pool').innerHTML=pool.map(i=>`<button class="pill pool ${seq.includes(i)?'used':''}" data-i="${i}">${esc(Q.items[i])}</button>`).join('');
+      $('#pool').querySelectorAll('.pill').forEach(b=>b.onclick=()=>{seq.push(+b.dataset.i);draw();});
+      $('#seq').querySelectorAll('.pill').forEach(b=>b.onclick=()=>{seq.splice(+b.dataset.k,1);draw();});
+    }; draw();
+    addCheck(()=>{ if(seq.length<Q.items.length) return say('카드를 모두 놓아 주세요!'); seq.every((v,k)=>v===k)?right():(wrong(),seq=[],draw()); });
+  }
+  else if(Q.type==='match'){
+    const L=shuffle(Q.pairs.map((_,i)=>i)), R=shuffled(L); let pick=null, done=0;
+    body.innerHTML=`<div class="match">${L.map((l,k)=>{const p=Q.pairs[l],r=Q.pairs[R[k]];return `<button class="opt" data-s="L" data-i="${l}">${p[0]?`<img src="${img(p[0])}" alt="">`:''}<span>${esc(p[1])}</span></button><button class="opt" data-s="R" data-i="${R[k]}">${esc(r[2])}</button>`;}).join('')}</div>
+      <p class="center" style="color:#4e7270;font-size:.85em">왼쪽을 누른 뒤, 알맞은 오른쪽을 눌러요.</p>`;
+    body.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      if(b.dataset.s==='L'){ body.querySelectorAll('.opt.sel').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); pick=b; return; }
+      if(!pick) return say('먼저 왼쪽을 골라 주세요!');
+      if(pick.dataset.i===b.dataset.i){ [pick,b].forEach(x=>{x.classList.remove('sel');x.classList.add('ok');x.disabled=true;}); pick=null; done++;
+        if(done===Q.pairs.length) right(); else { beep('ok'); fb.className='fb good'; fb.textContent='짝을 찾았어요! 계속해 보세요.'; }
+      } else { b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); setTimeout(()=>b.classList.remove('no'),500); wrong(); }
+    });
+  }
+  else if(Q.type==='route'){
+    let at=0; const P=Q.ports;
+    body.innerHTML=`<div class="sea"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M100 0 L58 0 Q52 10 56 18 Q44 26 48 38 Q40 44 54 56 Q62 70 66 80 Q68 92 82 100 L100 100Z" fill="#f2e6b8"/><polyline points="${P.map(p=>p[1]+','+p[2]).join(' ')}" fill="none" stroke="#fff" stroke-width=".8" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"/></svg>
+      ${shuffled(P.map((_,i)=>i)).map(i=>`<button class="port" data-i="${i}" style="left:${P[i][1]}%;top:${P[i][2]}%">${esc(P[i][0])}</button>`).join('')}
+      <img class="shipmark" id="sh" src="${img('ship')}" alt="" style="left:88%;top:92%"></div>
+      <p class="center" style="color:#4e7270;font-size:.85em">노란 곳이 육지, 파란 곳이 서해 바다예요. (간단히 나타낸 그림)</p>`;
+    body.querySelectorAll('.port').forEach(b=>b.onclick=()=>{
+      if(+b.dataset.i===at){ b.classList.remove('no'); b.classList.add('ok'); b.disabled=true; const s=$('#sh'); s.style.left=P[at][1]+'%'; s.style.top=P[at][2]+'%'; at++; if(at===P.length) right(); else beep('ok'); }
+      else { b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); setTimeout(()=>b.classList.remove('no'),500); wrong(); }
+    });
+  }
+  else if(Q.type==='grid'){
+    let r=0;
+    const round=()=>{ const [base,odd]=Q.rounds[r], n=36, pos=Math.floor(Math.random()*n);
+      body.innerHTML=`<p class="center jua">경판 ${r+1} / ${Q.rounds.length}</p><div class="jgrid">${Array.from({length:n},(_,i)=>`<button data-i="${i}">${i===pos?odd:base}</button>`).join('')}</div>`;
+      body.querySelectorAll('.jgrid button').forEach(b=>b.onclick=()=>{
+        if(+b.dataset.i===pos){ b.classList.add('ok'); r++; if(r===Q.rounds.length) right(); else { beep('ok'); setTimeout(round,450); } }
+        else { b.classList.add('no'); setTimeout(()=>b.classList.remove('no'),400); wrong(); }
+      });
+    }; round();
+  }
+  else if(Q.type==='sort'){
+    const items=shuffle(Q.items); let k=0;
+    const draw=()=>{ body.innerHTML=`<p class="center qno">${k+1} / ${items.length}</p><div class="sortcard">${esc(items[k][0])}</div><div class="bins">${Q.bins.map((t,i)=>`<button class="btn ${i?'gold':''}" data-i="${i}">${esc(t)}</button>`).join('')}</div>`;
+      body.querySelectorAll('.bins .btn').forEach(b=>b.onclick=()=>{ if(+b.dataset.i===items[k][1]){ k++; if(k===items.length){ body.innerHTML='<div class="sortcard">모두 분류했어요!</div>'; right(); } else { beep('ok'); fb.className='fb good'; fb.textContent='맞았어요!'; draw(); } } else { const c=body.querySelector('.sortcard'); c.style.animation='none'; void c.offsetWidth; c.style.animation='shake .35s'; wrong(); } });
+    }; draw();
+  }
+  else if(Q.type==='press'){
+    const ch=[...Q.text.replace(/\s/g,'')], tiles=shuffled([...ch,...Q.extra].map((c,i)=>({c,i}))); let seq=[];
+    body.innerHTML=`<div class="seq" id="seq"></div><div class="pills" id="pool"></div><div class="paper" id="paper"></div>`;
+    const draw=()=>{
+      $('#seq').innerHTML=seq.map((t,k)=>`<button class="pill" data-k="${k}">${esc(t.c)}</button>`).join('');
+      $('#pool').innerHTML=tiles.map((t,n)=>`<button class="pill pool ${seq.includes(t)?'used':''}" data-n="${n}" style="font-size:30px;min-width:64px">${esc(t.c)}</button>`).join('');
+      $('#pool').querySelectorAll('.pill').forEach(b=>b.onclick=()=>{seq.push(tiles[+b.dataset.n]);draw();});
+      $('#seq').querySelectorAll('.pill').forEach(b=>b.onclick=()=>{seq.splice(+b.dataset.k,1);draw();});
+    }; draw();
+    addCheck(()=>{
+      if(!seq.length) return say('활자를 먼저 골라 주세요!');
+      $('#paper').innerHTML=seq.map((t,k)=>`<span style="animation-delay:${k*.06}s">${esc(t.c)}</span>`).join('');
+      if(seq.map(t=>t.c).join('')===ch.join('')) right(); else wrong();
+    },'먹 바르고 찍기');
+  }
+  else if(Q.type==='pick'){
+    const need=Q.opts.filter(o=>o[1]).length; let got=0;
+    body.innerHTML=`<div class="bolls">${shuffle(Q.opts).map(o=>`<button class="boll" data-t="${o[1]}"><img src="${img('cotton')}" alt=""><span>${esc(o[0])}</span></button>`).join('')}</div>`;
+    body.querySelectorAll('.boll').forEach(b=>b.onclick=()=>{ if(b.dataset.t==='1'){ b.classList.add('ok'); b.disabled=true; got++; if(got===need) right(); else beep('ok'); } else { b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); wrong(); } });
+  }
+  else if(Q.type==='letter'){
+    body.innerHTML=`<div class="chips">${Q.words.map(w=>`<span class="chip" style="min-width:0">${esc(w)}</span>`).join('')}</div>
+      <textarea class="ans" id="lt" placeholder="${esc(Q.ph)}">${esc(S.letter)}</textarea><p class="center" id="cnt" style="margin:6px 0"></p>`;
+    const t=$('#lt'), n=()=>t.value.replace(/\s/g,'').length, up=()=>{ $('#cnt').textContent=`${n()}자 / ${Q.min}자 이상`; };
+    t.oninput=up; up();
+    addCheck(()=>{ if(n()<Q.min) return say(`조금만 더 써 보세요! ${Q.min}자 이상 쓰면 다음으로 갈 수 있어요.`); S.letter=t.value.trim(); save(); right(); },'편지 보내기');
+  }
+}
+
+function reward(mi){
+  const M=MISSIONS[mi];
+  S.m=Math.max(S.m,mi+1); save(); drawHud(); top0(); beep('win'); confetti(40);
+  screen.innerHTML=`<div class="card center"><span class="tag">미션 ${mi+1} 성공!</span>
+    <h2>보물 획득!</h2><img class="item" src="${img(M.item.img)}" alt="${esc(M.item.name)}">
+    <h2>${esc(M.item.name)}</h2><p>앞으로 ${MISSIONS.length-S.m}개만 더 모으면 보물 상자를 열 수 있어요!</p>
+    <div class="row"><button class="btn gold" id="nx">${S.m<MISSIONS.length?'다음 미션으로':'보물 상자로!'}</button></div></div>`;
+  $('#nx').onclick=route;
+}
+
+function chestIntro(){
+  drawHud(); top0();
+  screen.innerHTML=`<div class="card center"><span class="tag">최종 관문</span>
+    <img class="chest" src="${img('chest')}" alt="잠긴 보물 상자">
+    <h2>꾸미의 보물 상자</h2>
+    ${kumi('보물 6개를 다 모았구나! 마지막으로 <b>빙고판</b>을 풀면 자물쇠가 열려. 옳은 설명은 O, 틀린 설명은 X를 눌러 줘!')}
+    <div class="row"><button class="btn gold" id="nx">빙고 시작</button></div></div>`;
+  $('#nx').onclick=bingo;
+}
+
+function bingo(){
+  drawHud(); top0();
+  const done=Array(9).fill(false); let cur=0, tries=0;
+  screen.innerHTML=`<div class="card"><span class="tag">최종 관문 · 고려 빙고</span>
+    <div class="qtext" style="margin-top:8px">옳은 설명의 칸만 빙고가 돼요!</div>
+    <div class="bingo" id="bg"></div><div id="q"></div><div class="fb" id="fb"></div></div>`;
+  const fb=$('#fb');
+  const draw=()=>{
+    const ok=i=>done[i]&&BINGO[i][1], lines=LINES.filter(l=>l.every(ok)).flat(), all=done.every(Boolean);
+    $('#bg').innerHTML=BINGO.map((b,i)=>`<button data-i="${i}" class="${done[i]?(b[1]?((all&&lines.includes(i))?'line':'t'):'f'):(i===cur?'cur':'')}">${done[i]?(b[1]?'O':'X'):i+1}</button>`).join('');
+    $('#bg').querySelectorAll('button').forEach(b=>b.onclick=()=>{ const i=+b.dataset.i; if(!done[i]){cur=i;fb.className='fb';draw();} });
+    if(all) return askLines(LINES.filter(l=>l.every(ok)).length);
+    $('#q').innerHTML=`<div class="qtext">${cur+1}. ${esc(BINGO[cur][0])}</div><div class="ox"><button class="opt o" data-v="1">O</button><button class="opt x" data-v="0">X</button></div>`;
+    $('#q').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      if(+b.dataset.v===BINGO[cur][1]){ S.pearls+=tries?1:3; tries=0; save(); drawHud(); beep('ok'); done[cur]=true;
+        fb.className='fb good'; fb.textContent='정답이에요! '+BINGO[cur][2];
+        const n=done.indexOf(false); if(n>=0) cur=n; draw();
+      } else { tries++; beep('bad'); fb.className='fb bad'; fb.textContent='다시 생각해 보세요! 공부한 내용을 떠올려 보세요.'; }
+    });
+  };
+  const askLines=n=>{
+    $('#q').innerHTML=`<div class="qtext">완성된 빙고는 몇 줄인가요?</div><div class="opts two">${[1,2,3,4].map(v=>`<button class="opt" data-v="${v}" style="text-align:center">${v}줄</button>`).join('')}</div>`;
+    $('#q').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ if(+b.dataset.v===n) opening(); else { b.classList.add('no'); b.disabled=true; beep('bad'); fb.className='fb bad'; fb.textContent='가로, 세로, 대각선 줄을 모두 세어 보세요!'; } });
+  };
+  draw();
+}
+
+function opening(){
+  drawHud(); top0(); beep('win');
+  screen.innerHTML=`<div class="card center"><h2>자물쇠에 보물을 넣어요!</h2>
+    <img class="chest" src="${img('chest')}" alt="">
+    <div class="locks">${MISSIONS.map((m,i)=>`<img src="${img(m.item.img)}" alt="" style="animation-delay:${i*.25}s">`).join('')}</div></div>`;
+  setTimeout(ending,2200);
+}
+
+function ending(){
+  S.m=MISSIONS.length; save(); drawHud(); top0(); beep('win'); confetti(150);
+  const rank = S.pearls>=90?'전설의 탐험대장':S.pearls>=70?'베테랑 탐험대원':'용감한 탐험대원';
+  screen.innerHTML=`<div class="card center">
+    <img class="chest" src="${img('chestopen')}" alt="열린 보물 상자">
+    <h1>보물 상자가 열렸다!</h1>
+    <div class="cert"><span class="tag">고려 보물선 탐험 인증서</span>
+      <h2>${esc(S.name||'탐험대원')}</h2>
+      <p>위 탐험대원은 고려의 청자, 팔만대장경, 금속 활자, 목화의 비밀을 모두 밝혀<br>보물 상자를 열었기에 이 인증서를 드립니다.</p>
+      <div class="locks">${MISSIONS.map(m=>`<img src="${img(m.item.img)}" alt="${esc(m.item.name)}">`).join('')}</div>
+      <p class="jua" style="font-size:1.4em;margin:0">${rank} · 진주 ${S.pearls}개</p></div>
+    ${S.letter?`<h2 style="margin-top:20px">내가 쓴 고려의 편지</h2><div class="letterbox">${esc(S.letter)}</div>`:''}
+    <h2 style="margin-top:20px">배움 노트</h2>
+    <div class="chips" style="text-align:left">
+      <div class="chip"><b>고려 청자</b><small>상감 기법, 독창적, 주로 지배층이 사용</small></div>
+      <div class="chip"><b>팔만대장경</b><small>불교의 힘으로 몽골 침입을 물리치려고 만듦</small></div>
+      <div class="chip"><b>금속 활자</b><small>직지(1377), 글자를 조합해 여러 책 인쇄</small></div>
+      <div class="chip"><b>목화</b><small>문익점, 백성의 따뜻한 무명옷</small></div>
+    </div>
+    <div class="row"><button class="btn" id="again">처음부터 다시 하기</button></div></div>`;
+  $('#again').onclick=()=>{ S=fresh(S.name); save(); title(); };
+}
+
+title();
+</script>
+</body>
+</html>
